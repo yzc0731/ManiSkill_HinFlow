@@ -7,6 +7,7 @@ import torch
 
 from mani_skill import PACKAGE_ASSET_DIR
 from mani_skill.agents.base_agent import BaseAgent, Keyframe
+from mani_skill.sensors.camera import CameraConfig
 from mani_skill.agents.controllers import *
 from mani_skill.agents.registration import register_agent
 from mani_skill.utils import common, sapien_utils
@@ -16,7 +17,7 @@ from mani_skill.utils.structs.actor import Actor
 @register_agent()
 class Panda(BaseAgent):
     uid = "panda"
-    urdf_path = f"{PACKAGE_ASSET_DIR}/robots/panda/panda_v2.urdf"
+    urdf_path = f"{PACKAGE_ASSET_DIR}/robots/panda/panda_v3.urdf" # this is pand_wristcam
     urdf_config = dict(
         _materials=dict(
             gripper=dict(static_friction=2.0, dynamic_friction=2.0, restitution=0.0)
@@ -72,6 +73,21 @@ class Panda(BaseAgent):
     gripper_stiffness = 1e3
     gripper_damping = 1e2
     gripper_force_limit = 100
+
+    @property
+    def _sensor_configs(self):
+        return [
+            CameraConfig(
+                uid="hand_camera",
+                pose=sapien.Pose(p=[-0.035, 0.0, 0.022], q=[1, 0, 0, 0]),
+                width=128,
+                height=128,
+                fov=np.pi / 2,
+                near=0.01,
+                far=100,
+                mount=self.robot.links_map["camera_link"],
+            )
+        ]
 
     @property
     def _controller_configs(self):

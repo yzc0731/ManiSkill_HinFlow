@@ -16,3 +16,6 @@ from .place_sphere import PlaceSphereEnv
 from .roll_ball import RollBallEnv
 from .push_t import PushTEnv
 from .pull_cube_tool import PullCubeToolEnv
+from .pull_cube_tool_v2 import PullCubeToolV2Env
+from .place_sphere_v2 import PlaceSphereV2Env
+from .poke_cube_v2 import PokeCubeV2Env

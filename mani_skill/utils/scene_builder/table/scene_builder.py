@@ -62,7 +62,8 @@ class TableSceneBuilder(SceneBuilder):
         self.table.set_pose(
             sapien.Pose(p=[-0.12, 0, -0.9196429], q=euler2quat(0, 0, np.pi / 2))
         )
-        if self.env.robot_uids == "panda":
+        if (self.env.robot_uids == "panda" or "panda_" in self.env.robot_uids) and self.env.robot_uids != "panda_wristcam":
+            print(f"[TableSceneBuilder] initialize {self.env.robot_uids}")
             qpos = np.array(
                 [
                     0.0,

@@ -1,0 +1,35 @@
+from copy import deepcopy
+
+import numpy as np
+import sapien
+import sapien.physx as physx
+import torch
+
+from mani_skill import PACKAGE_ASSET_DIR
+from mani_skill.agents.base_agent import BaseAgent, Keyframe
+from mani_skill.agents.robots.panda.panda import Panda
+from mani_skill.sensors.camera import CameraConfig
+from mani_skill.agents.controllers import *
+from mani_skill.agents.registration import register_agent
+from mani_skill.utils import common, sapien_utils
+from mani_skill.utils.structs.actor import Actor
+
+
+@register_agent()
+class PandaPlaceSphere(Panda):
+    uid = "panda_placesphere"
+    urdf_path = f"{PACKAGE_ASSET_DIR}/robots/panda/panda_v4.urdf" # this is pand_wristcam, and remake its position
+    @property
+    def _sensor_configs(self):
+        return [
+            CameraConfig(
+                uid="hand_camera",
+                pose=sapien.Pose(p=[-0.03, 0.0, 0.02], q=[1, 0, 0, 0]),
+                width=128,
+                height=128,
+                fov=np.pi / 2,
+                near=0.01,
+                far=100,
+                mount=self.robot.links_map["camera_link"],
+            )
+        ]
