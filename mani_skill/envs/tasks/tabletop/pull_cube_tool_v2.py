@@ -34,7 +34,6 @@ class PullCubeToolV2Env(BaseEnv):
     arm_reach = 0.35
 
     def __init__(self, *args, robot_uids="panda_pullcubetool", robot_init_qpos_noise=0.02, **kwargs):
-        print('[Maniskill_yzc] using robot:', robot_uids)
         self.robot_init_qpos_noise = robot_init_qpos_noise
         super().__init__(*args, robot_uids=robot_uids, **kwargs)
 
